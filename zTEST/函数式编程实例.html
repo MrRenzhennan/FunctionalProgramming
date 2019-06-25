@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/require.js/2.3.6/require.min.js"></script>
+</head>
+
+<body>
+    <script>
+        require.config({
+            paths: {
+                ramda: 'https://cdn.bootcss.com/ramda/0.26.1/ramda.min',
+                jquery: 'https://cdn.bootcss.com/jquery/3.4.1/jquery.min'
+            }
+        });
+
+        require(['ramda', 'jquery'], function (_, $) {
+            //debugger
+            var trace = _.curry(function (tag, x) {
+                console.log(tag, x);
+                return x;
+            });
+
+            //测试数据
+            var dataArray = function(length){
+                var arr = Array.from({length:length});
+                return arr.map(function(item,index){
+                    return (
+                        {
+                            index: index,
+                            media: 'dom' + index
+                        }
+                    )
+                })
+            }
+
+            //url 数组
+            var medias = _.map(_.prop('media'));
+
+
+            //html拼装
+            var setHtme = _.curry(function(el,html){
+                $(el).html(html)
+            });
+
+            //img元素构建
+            var img = function(url){
+                return $('<div>').text(url)
+            }
+
+            //img循环构建
+            var images = _.map(img)
+
+            var render = _.compose(setHtme('body'),_.map(img))
+
+            var init = _.compose(render,medias)
+            
+            init(dataArray(10))
+            
+        })
+
+    </script>
+</body>
+
+</html>

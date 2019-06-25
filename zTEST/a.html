@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script id="TmplTopic" type="text/x-jquery-tmpl">
+        <div class="question
+                    {{if topicType==1}} question-radio {{/if}}
+                    {{if topicType==2}} question-check {{/if}}
+                    {{if topicType==3}} question-judge {{/if}}
+                    {{if Identifier=="S6"}} question-qa {{/if}}
+                    {{if Identifier=="S6-24"}}question-count {{/if}}
+                    {{if topicType==5}} question-synthesis {{/if}}
+                    {{if topicType==8}} question-matching{{/if}}"
+            >
+            <div class="question-type">
+                <span class="item-type radioques">${Title}</span>
+                <span class="quesnum radionums" style="margin-left:8px">(共${TopicsNum}题，${TopicsScore}分)</span>
+            </div>
+            <div>
+            {{each(j,topic) Topics}}
+                <div class="question-cont" 
+                    id=
+                    {{if topicType==1}}radio-question-${j+1}{{/if}}
+                    {{if topicType==2}}check-question-${j+1}{{/if}}
+                    {{if topicType==3}}judge-question-${j+1}{{/if}}
+                    {{if topicType==4}}blank-question-${j+1}{{/if}}
+                    {{if Identifier=="S6"}}qa-question-${j+1}{{/if}}
+                    {{if Identifier=="S6-24"}}count-question-${j+1}{{/if}}
+                    {{if topicType==5}}synthesis-question-${j+1}{{/if}}
+                    {{if topicType==8}}matching-question-${j+1} questionId="${I1}{{/if}}"
+                >
+                    <div class="question-cont-left">
+                        <span class="question-num">${j+1}</span>
+                        <span class="question-score">${topic.I9}分</span>
+                        <a  index=${j} 
+                            identifier={{if topicType==1}}radio-question-${j+1}{{/if}}
+                                        {{if topicType==2}}check-question-${j+1}{{/if}}
+                                        {{if topicType==3}}judge-question-${j+1}{{/if}}
+                                        {{if topicType==4}}blank-question-${j+1}{{/if}}
+                                        {{if Identifier=="S6"}}qa-question-${j+1}{{/if}}
+                                        {{if Identifier=="S6-24"}}count-question-${j+1}{{/if}} 
+                                        {{if topicType==5}}synthesis-question-${j+1}{{/if}} 
+                            href="javascript:void(0)" 
+                            data-value="0" 
+                            data-name=
+                            {{if topicType==1}}radio-tab{{/if}}
+                            {{if topicType==2}}check-tab{{/if}}
+                            {{if topicType==3}}judge-tab{{/if}}
+                            {{if topicType==4}}blank-tab{{/if}}
+                            {{if Identifier=="S6"}}qa-tab{{/if}}
+                            {{if Identifier=="S6-24"}}count-tab{{/if}} 
+                            {{if topicType==5}}synthesis-tab{{/if}}
+                            {{if topicType==8  }}matching-tab{{/if}}  
+                            class="question-mark"
+                        >
+                            <img src="../App_Themes/Theme/Images/study/mark.png" /><br>
+                            标记
+                        </a>
+                    </div>
+                    <div class="question-cont-right">
+                        <div  index=${j+1} 
+                                identifier={{if topicType==1}}radio-question-${j+1}{{/if}}
+                                            {{if topicType==2}}check-question-${j+1}{{/if}}
+                                            {{if topicType==3}}judge-question-${j+1}{{/if}}
+                                            {{if topicType==4}}blank-question-${j+1}{{/if}}
+                                            {{if Identifier=="S6"}}qa-question-${j+1}{{/if}}
+                                            {{if Identifier=="S6-24"}}count-question-${j+1}{{/if}}
+                                            {{if topicType==5}}synthesis-question-${j+1}{{/if}}
+                                            {{if topicType==8}}matching-question-${j+1}{{/if}} 
+                                            class="question-text"
+                            >
+                                {{if topicType != 8}}
+                                    {{html topic.I2}}
+                                {{/if}}
+                            </div>
+                            {{if topicType==5}}
+                            {{each(r,itemRadio) topic.Sub}}
+                                    {{if topic.Sub.length >0}}
+                                    <div class="synthesis-radio" style="margin-top:15px;">
+                                        <div>
+                                            <div class="question-text title">
+                                                <span class="symbol">
+                                                    <i class="question-text">${r+1}</i>、
+                                                </span>{{html itemRadio.I2}}
+                                            </div>
+                                        </div>
+                                        <ul class="question-options">
+                                            {{each(s,radioSel) itemRadio.I6}}
+                                                <li {{if itemRadio.I15.length>0}}  
+                                                        {{if itemRadio.I15==s}}
+                                                        class='cur'
+                                                        {{/if}} 
+                                                    {{/if}} 
+                                                    data-value="0" 
+                                                    itemindex="${s}" 
+                                                    itemid=${itemRadio.I1}
+                                                >
+                                                    <a href="javascript:void(0)">
+                                                        <i class="options">${s}</i>
+                                                        <span>{{html radioSel}}</span>
+                                                    </a>
+                                                </li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                    {{/if}}
+                                {{/each}} 
+                        {{/if}}
+                        {{if topicType !=8}}
+                            <ul class="question-options" style="margin-top:15px;">
+                                {{if topic.I6.length > 0}}
+                                    {{each(k,item) topic.I6}}
+                                        {{if topicType==1}}
+                                            <li {{if topic.I15.length>0}}  
+                                                    {{if topic.I15==k}}class='cur'{{/if}} 
+                                                {{/if}} 
+                                                data-value="0" 
+                                                itemindex="${k}" 
+                                                itemid=${topic.I1}>
+                                                <a href="javascript:void(0)">
+                                                    <i class="options">${k}</i>
+                                                    <span>{{html item}}</span>
+                                                </a>
+                                            </li>
+                                        {{/if}}
+                                        {{if topicType==2}}
+                                            {{if topic.I15.length>0}}
+                                                <li {{if topic.I15[k]==k}} 
+                                                        class='cur'  
+                                                        data-value="1" 
+                                                        {{else}} 
+                                                        data-value="0" 
+                                                    {{/if}} 
+                                                    itemindex="${k}" 
+                                                    itemid=${topic.I1}>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="options-more">${k}</i>
+                                                        <span>{{html item}}</span>
+                                                    </a>
+                                                </li>
+                                            {{else}} 
+                                                <li  data-value="0"  itemindex="${k}" itemid=${topic.I1}>
+                                                    <a href="javascript:void(0)">
+                                                        <i class="options-more">${k}</i>
+                                                        <span>{{html item}}</span>
+                                                    </a>
+                                                </li>
+                                            {{/if}}
+                                        {{/if}}
+                                        {{if topicType==3}}
+                                            <li {{if topic.I15.length>0}}  
+                                                    {{if topic.I15==k}}
+                                                    class=choice
+                                                    {{/if}} 
+                                                {{/if}} 
+                                                data-value="0" 
+                                                itemindex="${k}" 
+                                                itemid=${topic.I1}>
+                                                <i class="hide">${k}</i>
+                                                <label>
+                                                    <input {{if topic.I15.length>0}}  
+                                                                {{if topic.I15==k}}checked=checked{{/if}}
+                                                            {{/if}} 
+                                                            class="radios" 
+                                                            type="radio">
+                                                            &nbsp;&nbsp;<span>{{html item}}</span>
+                                                    </label>
+                                                </li>
+                                        {{/if}}
+                                        {{if topicType==4}}
+                                            <li data-value="0" itemindex="${k}" itemid=${topic.I1}>
+                                                <div id="ue${topic.I1}" class="qa-editor" name="content" type="text/plain">{{html topic.I15}}</div><p>0~400字之间</p>
+                                            </li>
+                                        {{/if}}
+                                        {{if Identifier=="S6"}}
+                                            <li data-value="0" itemindex="${k}" itemid=${topic.I1}>
+                                                {{if AnswerTimes==LimitTimes}}
+                                                    <div class="showanswer">{{html topic.I15}}</div>
+                                                {{else}}
+                                                    <div id="ue${topic.I1}" class="qa-editor" name="content" type="text/plain">{{html topic.I15}}</div>
+                                                    <p>0~400字之间</p>
+                                                {{/if}}
+                                            </li>
+                                        {{/if}}
+                                        {{if Identifier=="S6-24"}}
+                                            <li data-value="0" itemindex="${k}" itemid=${topic.I1}>
+                                                {{if AnswerTimes==LimitTimes}}
+                                                <div class="showanswer">{{html topic.I15}}</div>
+                                                {{else}}
+                                                <div id="ue${topic.I1}" class="count-editor" name="content" type="text/plain">{{html topic.I15}}</div><p>0~400字之间</p>
+                                                {{/if}}
+                                            </li>
+                                        {{/if}}
+                                    {{/each}}
+                                {{else}}
+                                    {{if Identifier=="S6"}}
+                                        <li data-value="0" itemindex="${k}" itemid=${topic.I1}>
+                                            {{if AnswerTimes==LimitTimes}}
+                                            <div class="showanswer">{{html topic.I15}}</div>
+                                            {{else}}
+                                            <div id="ue${topic.I1}" class="qa-editor" name="content" type="text/plain">{{html topic.I15}}</div><p>0~400字之间</p>
+                                            {{/if}}
+                                        </li>
+                                    {{/if}}
+                                    {{if Identifier=="S6-24"}}
+                                        <li data-value="0" itemindex="${k}" itemid=${topic.I1}>
+                                            {{if AnswerTimes==LimitTimes}}
+                                            <div class="showanswer">{{html topic.I15}}</div>
+                                            {{else}}
+                                            <div id="ue${topic.I1}" class="count-editor" name="content" type="text/plain">{{html topic.I15}}</div><p>0~400字之间</p>
+                                            {{/if}}
+                                        </li>
+                                    {{/if}}
+                                {{/if}}
+                            </ul>
+                        {{else}}
+                            <ul class="optionList_tml">
+                                {{each(k,val1) I6}}
+                                    <li><span class="sign">${optionSign[k]}、</span><div class="chiocetxt" val="选项"+(k+1)+"">{{html val1}}</div></li>
+                                {{/each}}
+                            </ul>
+                            <div class="childItem_tml">
+                                {{each(j,val2) Sub}}
+                                    <div class="matchingItemInfo" child_itemid="${I1}">
+                                        <div class="topic_title">
+                                            <p class="supplement_info">${j+1}、(<span class="matching_itemSore">${topic.I9/topic.Sub.length}</span>分)</p>
+                                            <div class="matching_itemTitle">{{html I2}}</div>
+                                        </div>
+                                        <ul class="childItemOptions">
+                                            {{each(s,val2) topic.I6}}
+                                                {{if I15.length != 0}}
+                                                    {{if I15[0] == s}}
+                                                        <li data-value="1" class="choiced">${optionSign[s]}</li>
+                                                    {{else}}
+                                                        <li data-value="0">${optionSign[s]}</li>
+                                                    {{/if}}
+                                                {{else}}
+                                                    <li data-value="0">${optionSign[s]}</li>
+                                                {{/if}}
+                                            {{/each}} 
+                                        </ul>
+                                    </div>
+                                {{/each}}
+                            </div>
+                        {{/if}}
+                        {{if AnswerTimes==0&&SystemTime>EndTime}}
+                            <div class="topic-analysis"><span class="folding-analysissigle1 foldingbutton"><span class="fsize12">打开解析</span><i></i></span></div>
+                            <div class="topic-analysis-con" style="display:none"><div class="arrow-analysis"></div><div class="topicanalysis">{{html topic.I10}}</div></div>
+                        {{/if}}
+                    </div>
+                </div>
+            {{/each}}
+      </div>
+  </div>
+</script>
+</body>
+
+</html>
